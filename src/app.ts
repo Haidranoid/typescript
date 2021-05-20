@@ -1,117 +1,64 @@
-// interception types ---------------------------------------------
-interface Admin {
+/*const names: Array<string> = []  // string[]
+//names[0].split(' ')
+
+const promise: Promise<string> = new Promise((resolve, reject) => {
+    try {
+        setTimeout(() => {
+            resolve('This is done!')
+        }, 2000)
+    } catch (e) {
+        reject(e.message)
+    }
+})
+
+promise.then(data => {
+    data.split(' ');
+})*/
+
+// Generics -----------------------------------------------------------
+function merge<T, U>(objA: T, objB: U) {
+    //return {...objA, ...objB};
+    return Object.assign(objA, objB)
+}
+
+// Constrains ----------------------------------------------------------
+function merge2<T extends object, U extends object>(objA: T, objB: U) { // constrains
+    //return {...objA, ...objB};
+    return Object.assign(objA, objB)
+}
+
+interface Object1 {
     name: string;
-    privileges: string[];
+    hobbies: string[],
 }
 
-interface Employee {
-    name: string;
-    startDate: Date;
+interface Object2 {
+    age: number;
 }
 
-// interface ElevatedEmployee extends Employee, Admin {}
-type ElevatedEmployee = Admin & Employee; // in objects combine the properties
+//const mergedObj = merge<Object1, Object2>({name: 'Max', hobbies: ['Sports']}, {age: 30});
+const mergedObj = merge2({name: 'Max', hobbies: ['Sports']}, {});
+console.log(mergedObj)
 
-const e1: ElevatedEmployee = {
-    name: 'Max',
-    privileges: ['create-server'],
-    startDate: new Date(),
+interface Lengthy {
+    length: number,
 }
 
-type Combinable = string | number;
-type Numeric = number | boolean;
+function countAndDescribe<T extends Lengthy>(element: T): [T, string] {
+    let descriptionText: string;
+    if (element.length === 1)
+        descriptionText = 'Got 1 element.';
+    else
+        descriptionText = 'Got ' + element.length + ' elements.'
 
-type Universal = Combinable & Numeric; // in unions keeps the interception
-
-const e2: Universal = 20;
-
-// Guard types ------------------------------------------------------
-function add(a: Combinable, b: Combinable) {
-    if (typeof a === 'string' || typeof b === 'string')
-        return a.toString() + b.toString()
-    return a + b;
+    return [element, descriptionText]
 }
 
-type UnknownEmployee = Employee | Admin;
+console.log(countAndDescribe('Hi there'))
 
-function printEmployee(emp: UnknownEmployee) {
-    console.log('Name: ' + emp.name);
-    if ('privileges' in emp) // type guard with objects
-        console.log('Privileges: ' + emp.privileges)
-    if ('startDate' in emp) // type guard with objects
-        console.log('StartDate: ' + emp.startDate)
+// keyof constraints -------------------------------------------------------------
+function extractAndConvert<T extends object, U extends keyof T>(obj: T, key: U) {
+    return obj[key];
 }
 
-printEmployee({name: 'Manu', startDate: new Date()})
-
-class Car {
-    drive() {
-        console.log('Driving...')
-    }
-}
-
-class Truck {
-    drive() {
-        console.log('Driving a truck...')
-    }
-
-    loadCargo(amount: number) {
-        console.log('Loading cargo...' + amount)
-    }
-}
-
-type Vehicle = Car | Truck;
-
-const v1 = new Car();
-const v2 = new Truck();
-
-function useVehicle(vehicle: Vehicle) {
-    vehicle.drive();
-    if (vehicle instanceof Truck) // type guard with classes
-        vehicle.loadCargo(1000);
-}
-
-useVehicle(v1);
-useVehicle(v2);
-
-// Discriminated unions -------------------- REDUX -----------------
-interface Bird {
-    type: 'bird';
-    flyingSpeed: number;
-}
-
-interface Horse {
-    type: 'horse';
-    runningSpeed: number;
-}
-
-type Animal = Bird | Horse;
-
-const moveAnimal = (animal: Animal) => {
-    switch (animal.type) {
-        case "bird":
-            console.log(animal.flyingSpeed)
-            break;
-        case "horse":
-            console.log(animal.runningSpeed)
-            break;
-    }
-}
-moveAnimal({type: 'bird', flyingSpeed: 200})
-
-// type casting --------------------------------------------------------
-
-//const userInputElement = <HTMLInputElement>document.getElementById('user-input')! as HTMLInputElement;
-//const userInputElement = document.getElementById('user-input')! as HTMLInputElement;
-const userInputElement = document.getElementById('user-input');
-if (userInputElement)
-    (userInputElement as HTMLInputElement).value = 'Hi there!'
-
-// index properties ----------------------------------------------------
-interface ErrorContainer { // { email: 'Not a valid email', userName: 'Must start with a character' }
-    [prop: string]: string;
-}
-const errorBag: ErrorContainer = {
-    email: 'Not a valid email',
-    userName: 'Must start with a capital character!'
-}
+console.log(extractAndConvert({name: 'hi'}, 'name'))

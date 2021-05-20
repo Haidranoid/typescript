@@ -15,5 +15,9 @@ number1 = 5;
 const number2 = 2.8; // infers the type if it is declared when initialized
 const printResult = true; // infers the type if it is declared when initialized
 let resultPhrase = 'Result is: '; // infers the type if it is declared when initialized
+let obj: object;
+obj = {
+    lala: 'hi',
+}
 
 add(number1, number2, printResult, resultPhrase);
