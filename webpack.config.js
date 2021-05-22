@@ -1,21 +1,26 @@
-const path = require('path')
-const CleanPlugin = require('clean-webpack-plugin')
+const path = require('path');
+const CleanPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: process.env.NODE_ENV, // change to 'production' in production
+    mode: process.env.NODE_ENV || 'production', // change to 'production' in production
+    target: "web",
     entry: './src/app.ts',
     output: {
         filename: "bundle.js",
         path: path.resolve(__dirname, 'dist'),
-        publicPath: "dist" // remove on production
+        publicPath: "/" // remove on production
     },
-    devtool: 'inline-source-map',  // change to 'none' in production
+    devtool: process.env.NODE_ENV ? 'inline-source-map' : false,  // change to 'none' in production
     module: {
         rules: [
             {
                 test: /\.ts$/,
-                use: 'ts-loader',
-                exclude: /node_modules/
+                loader: 'ts-loader',
+                exclude: /node_modules/,
+                options: {
+                    configFile: "tsconfig.json",
+                }
             }
         ]
     },
@@ -24,5 +29,9 @@ module.exports = {
     },
     plugins: [
         new CleanPlugin.CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            template: './index.html',
+            filename: 'index.html',
+        }),
     ]
 }
