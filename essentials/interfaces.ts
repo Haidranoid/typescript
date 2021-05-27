@@ -1,22 +1,36 @@
+// Defining type of each property of an object --------------------------------------
+
 interface Person {
     name: string;
     age: number;
-    greet: (phrase: string) => void;
+
+    getDescription(): string;
 
     say(message: string): void;
+
+    greet: (phrase: string) => void;
 }
 
-const user1: Person = {
+const user: Person = {
     name: 'Max',
     age: 22,
-    greet: (phrase: string) => {
-        console.log(phrase + ' ' + name) // cannot access to object properties
+    getDescription(): string {
+        return this.name + ' ' + this.age;
     },
     say(message: string) {
         console.log(this.name + ' says ' + message)
     },
+    greet: (phrase: string) => {
+        console.log(phrase + ' ' + name) // cannot access to object properties
+    },
 }
 
+const printUser = (user: Person) => {
+    user.getDescription();
+}
+printUser(user);
+
+// inheritance of interfaces -------------------------------------------------------
 
 interface Named {
     readonly name?: string;
@@ -26,6 +40,8 @@ interface Named {
 interface Greetable extends Named {
     saySomething(phrase: string): void;
 }
+
+// implementing interfaces --------------------------------------------------------
 
 class Human implements Greetable {
     readonly name?: string;
@@ -37,7 +53,7 @@ class Human implements Greetable {
     }
 
     saySomething(phrase: string): void {
-        if(this.name)
+        if (this.name)
             console.log(this.name + ' says ' + phrase)
         else
             console.log('unknown says ' + phrase)
@@ -49,6 +65,7 @@ const user2: Greetable = new Human('eduardo');
 //user2.name = '20';
 
 
+// Defining type of a functions argument and return -----------------------------------------
 type AddFn = (a: number, b: number) => number;
 //interface AddFn {
 //    (a: number, b: number): number;
