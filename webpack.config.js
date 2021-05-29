@@ -30,7 +30,7 @@ module.exports = {
     plugins: [
         new CleanPlugin.CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            template: './index.html',
+            template: './src/index.html',
             filename: 'index.html',
         }),
     ]

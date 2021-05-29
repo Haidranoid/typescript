@@ -92,8 +92,12 @@
     /* Disallow inconsistently-cased references to the same file. */
   },
   "exclude": [
+    "dist",
     "essentials",
-    "node_modules"
+    "google-maps",
+    "google-maps-2",
+    "node_modules",
+    "project-todo",
     // would be default
   ]
   // "include": ["src/**/*"] /* better use rootDir in compileOptions */
