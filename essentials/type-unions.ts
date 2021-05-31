@@ -1,12 +1,26 @@
+// primitive unions
 type Combinable = number | string;
+
+// literal unions
 type ConversionDescriptor = 'as-number' | 'as-text';
 
-const combine = (
-    input1: Combinable,
-    input2: Combinable,
-    resultConversion: ConversionDescriptor
-) => {
+// interface unions
+interface Admin {
+    name: string;
+    privileges: string[];
+}
+
+interface Employee {
+    name: string;
+    startDate: Date;
+}
+
+type Role = Admin | Employee;
+
+
+const combine = (input1: Combinable, input2: Combinable, resultConversion: ConversionDescriptor) => {
     let result;
+    // type guard
     if (typeof input1 === 'number' && typeof input2 === 'number' || resultConversion === 'as-number')
         result = +input1 + +input2
     else

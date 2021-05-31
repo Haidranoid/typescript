@@ -17,5 +17,32 @@ function createCourseGoal(
     return courseGoal as CourseGoal;
 }
 
-const names: Readonly<string[]> = ['Max', 'Anna'];
-//names.push('Manu');
+const names: Readonly<string[]> = ['Max', 'Anna']; // makes all the properties readonly
+// names.push('Manu');
+
+
+// index properties ----------------------------------------------------------
+interface ErrorContainer { // { email: 'Not a valid email', userName: 'Must start with a character' }
+    [prop: string]: string;
+}
+
+const errorBag: ErrorContainer = {
+    email: 'Not a valid email',
+    userName: 'Must start with a capital character!'
+}
+
+
+// optional chaining ----------------------------------------------------------
+const fetchedUserData = {
+    id:'ui',
+    name:'Max',
+    //job: {title: 'CEO', description:'My own company'}
+}
+//console.log(fetchedUserData?.job?.title)
+
+
+// Nullish coalescing ----------------------------------------------------------
+const userInput = null;
+
+// ?? means null or undefined  -
+const storedData = userInput ?? 'DEFAULT';
