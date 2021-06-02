@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 
 const url = 'https://jsonplaceholder.typicode.com/todos/1';
 
@@ -8,7 +8,7 @@ interface TodoResponse {
     completed: boolean;
 }
 
-axios.get<TodoResponse>(url).then(response => {
+axios.get<TodoResponse>(url).then((response: AxiosResponse) => {
     const todo = response.data; // as TodoResponse
 
     const ID = todo.id;
