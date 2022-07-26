@@ -4,7 +4,7 @@ const form = document.querySelector('form')! as HTMLFormElement;
 const addressInput = document.getElementById('address')! as HTMLInputElement;
 
 
-const GOOGLE_APY_KEY = 'AIzaSyDLkUW2t2o4Zuucfco2qsBpIo-r3DPtljA';
+const GOOGLE_APY_KEY = '';
 declare var google: any;
 
 interface GoogleGeocodingResponse {
